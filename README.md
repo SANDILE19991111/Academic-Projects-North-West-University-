@@ -38,6 +38,6 @@ Technical portfolio showcasing university projects in database design, network c
   - Gantt chart project scheduling
   - Equipment specifications
 - **Digital Marketing Presentation** – PowerPoint on future trends and strategies
-- **Professional CV** – Updated resume with project experience
+
 
 
