@@ -1,44 +1,43 @@
-# Technical Skills Portfolio
+# 🎓 Academic Projects Portfolio
 
-## 🗃️ DATABASE SKILLS
- Clinic Appointment System
-- Designed 10+ entity relational database
-- Implemented business rules (2 per entity)
-- Created complex SQL queries and views
-- Developed ER diagrams and documentation
-- **Tech:** PostgreSQL, SQL, ER Modeling
+![GitHub repo size](https://img.shields.io/github/repo-size/SANDILE19991111/Academic-Projects-North-West-University-?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/SANDILE19991111/Academic-Projects-North-West-University-?style=flat-square)
+![Status](https://img.shields.io/badge/status-completed-success?style=flat-square)
+![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)
 
-## 📊 DATA ANALYSIS SKILLS
-**Project:** Financial Management Systems
-- Built automated payroll with tax calculations
-- Created dynamic budgeting models
-- Implemented data visualization (charts, graphs)
-- Developed forecasting and analysis tools
-- **Tech:** Excel (Advanced), Formulas, PivotTables
+Technical portfolio showcasing university projects in database design, network configuration, data analysis, and system development. NWU Computer Science & Mathematics graduate.
 
-## 📝 PROFESSIONAL SKILLS
-**Project:** Business Tender Proposal
-- Wrote comprehensive business proposals
-- Created project timelines (Gantt charts)
-- Developed budget estimates and justifications
-- Prepared technical presentations
-- **Tech:** MS Word, Excel, PowerPoint
+## 🔥 Project Highlights
 
-## 💻 TECHNICAL COMPETENCIES
-- **Database Management:** Design, Implementation, Optimization
-- **Data Processing:** Automation, Analysis, Reporting
-- **Business Systems:** Requirements, Documentation, Proposals
-- **Software Development:** Problem-solving, Design, Testing
+- **🏥 Clinic Appointment System** – Complete relational database solution with 10+ entities, business rules, ER diagrams, and sample SQL data
+- **🌐 Network Lab** – 5 different topology configurations (Bus, Ring, Star, Mesh, Hybrid) with VLAN, DHCP, and security implementations
+- **📊 Excel Automation** – Financial models with dynamic calculations, tax computations, and data visualizations
+- **📋 Business Proposals** – Full tender documentation with budgeting, Gantt charts, and project planning
+- **👨‍💼 Professional Development** – Resume and presentation materials showcasing technical communication skills
 
-## 📁 Quick Access
-- `/Database-Projects/` → SQL, ER diagrams, schemas
-- `/Excel-Projects/` → Financial models, calculations
-- `/Business-Projects/` → Proposals, documentation
-- `/Personal/` → Resume, academic records
+## 📁 Project Structure
 
-## 👤 Profile
-**Name:** Bongimusa Sandile Khoza  
-**Role:** Computer Science Graduate  
-**Specialization:** Database Systems & Data Analysis  
-**Availability:** Open to technical roles  
-**Contact:** bongimusa.khoza@outlook.com
+### 📊 Excel & Data Analysis Projects
+- **Employee Payroll System** – Automated salary, tax, and net pay calculations for 15+ employees with overtime tracking
+- **Company Annual Budget** – Year-long expense tracking with visualized column charts and monthly analysis
+- **Personal Budget Tracker** – Monthly income/expense analysis with dynamic charts (column, pie, line, bubble)
+
+### 🗃️ Database & System Design Projects
+- **Clinic Appointment System** – Full database project with:
+  - Entity-Relationship Diagrams (ERD)
+  - Business rules (2 per entity)
+  - SQL table creation scripts
+  - Sample data population
+  - Complex queries and views
+- **Retail Business Database** – Entity-relationship modeling for suppliers, products, and customers with 1:M relationships
+
+### 📈 Business & Professional Projects
+- **Computer Lab Tender Proposal** – Complete business plan with:
+  - Network topology design
+  - Detailed budget compilation
+  - Gantt chart project scheduling
+  - Equipment specifications
+- **Digital Marketing Presentation** – PowerPoint on future trends and strategies
+- **Professional CV** – Updated resume with project experience
+
+
