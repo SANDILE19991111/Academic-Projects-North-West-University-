@@ -10,7 +10,6 @@ Technical portfolio showcasing university projects in database design, network c
 ## 🔥 Project Highlights
 
 - **🏥 Clinic Appointment System** – Complete relational database solution with 10+ entities, business rules, ER diagrams, and sample SQL data
-- **🌐 Network Lab** – 5 different topology configurations (Bus, Ring, Star, Mesh, Hybrid) with VLAN, DHCP, and security implementations
 - **📊 Excel Automation** – Financial models with dynamic calculations, tax computations, and data visualizations
 - **📋 Business Proposals** – Full tender documentation with budgeting, Gantt charts, and project planning
 - **👨‍💼 Professional Development** – Resume and presentation materials showcasing technical communication skills
