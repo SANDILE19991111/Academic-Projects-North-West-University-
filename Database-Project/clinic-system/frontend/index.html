@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ClinicCare — Appointment System</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- SIDEBAR NAV -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">✚</div>
+    <span>ClinicCare</span>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" data-section="dashboard">
+      <span class="nav-icon">⊞</span> Dashboard
+    </a>
+    <a href="#" class="nav-item" data-section="patients">
+      <span class="nav-icon">👤</span> Patients
+    </a>
+    <a href="#" class="nav-item" data-section="appointments">
+      <span class="nav-icon">📅</span> Appointments
+    </a>
+    <a href="#" class="nav-item" data-section="doctors">
+      <span class="nav-icon">🩺</span> Doctors
+    </a>
+    <a href="#" class="nav-item" data-section="records">
+      <span class="nav-icon">📋</span> Medical Records
+    </a>
+    <a href="#" class="nav-item" data-section="pharmacy">
+      <span class="nav-icon">💊</span> Pharmacy
+    </a>
+    <a href="#" class="nav-item" data-section="billing">
+      <span class="nav-icon">💳</span> Billing
+    </a>
+    <a href="#" class="nav-item" data-section="waitlist">
+      <span class="nav-icon">⏳</span> Waitlist
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="user-info">
+      <div class="user-avatar">A</div>
+      <div>
+        <div class="user-name">Admin User</div>
+        <div class="user-role">Administrator</div>
+      </div>
+    </div>
+    <button onclick="logout()" class="btn-logout">Logout</button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main-content">
+  <header class="top-bar">
+    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <div class="top-bar-title" id="page-title">Dashboard</div>
+    <div class="top-bar-actions">
+      <span class="notification-bell">🔔 <span class="badge" id="notif-count">0</span></span>
+      <span class="current-date" id="current-date"></span>
+    </div>
+  </header>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast hidden"></div>
+
+  <!-- LOGIN / SIGNUP MODAL -->
+  <div id="login-modal" class="modal-overlay">
+    <div class="modal-box login-box">
+      <div class="login-logo">✚ ClinicCare</div>
+      <p class="login-sub">Clinic Appointment Management System</p>
+
+      <!-- TABS -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')">Sign In</button>
+        <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+      </div>
+
+      <!-- SIGN IN PANEL -->
+      <div id="panel-signin">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="login-username" placeholder="Enter username" />
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="login-password" placeholder="Enter password" />
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select id="login-role">
+            <option value="Admin">Admin</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Receptionist">Receptionist</option>
+            <option value="Patient">Patient</option>
+          </select>
+        </div>
+        <button class="btn-primary full-width" onclick="doLogin()">Sign In</button>
+        <p class="auth-switch">Don't have an account? <a href="#" onclick="switchAuthTab('signup')">Create one</a></p>
+      </div>
+
+      <!-- SIGN UP PANEL -->
+      <div id="panel-signup" style="display:none;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>First Name *</label>
+            <input type="text" id="reg-fname" placeholder="First name" />
+          </div>
+          <div class="form-group">
+            <label>Surname *</label>
+            <input type="text" id="reg-lname" placeholder="Surname" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="text" id="reg-phone" placeholder="e.g. 0712345678" />
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" id="reg-email" placeholder="your@email.com" />
+        </div>
+        <div class="form-group">
+          <label>Role *</label>
+          <select id="reg-role">
+            <option value="Admin">Admin</option>
+            <option value="Doctor">Doctor</option>
+            <option value="Nurse">Nurse</option>
+            <option value="Receptionist">Receptionist</option>
+            <option value="Pharmacist">Pharmacist</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Username * (min 5 characters)</label>
+          <input type="text" id="reg-username" placeholder="Choose a username" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Password *</label>
+            <input type="password" id="reg-password" placeholder="Password" />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password *</label>
+            <input type="password" id="reg-confirm" placeholder="Confirm password" />
+          </div>
+        </div>
+        <button class="btn-primary full-width" onclick="doSignup()">Create Account</button>
+        <p class="auth-switch">Already have an account? <a href="#" onclick="switchAuthTab('signin')">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTIONS -->
+
+  <!-- DASHBOARD -->
+  <section id="section-dashboard" class="section active">
+    <div class="section-header">
+      <h1>Welcome back 👋</h1>
+      <p>Here's what's happening at your clinic today.</p>
+    </div>
+    <div class="stats-grid" id="stats-grid">
+      <div class="stat-card teal">
+        <div class="stat-icon">👤</div>
+        <div class="stat-value" id="stat-patients">—</div>
+        <div class="stat-label">Total Patients</div>
+      </div>
+      <div class="stat-card blue">
+        <div class="stat-icon">📅</div>
+        <div class="stat-value" id="stat-appointments">—</div>
+        <div class="stat-label">Today's Appointments</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-icon">💳</div>
+        <div class="stat-value" id="stat-revenue">—</div>
+        <div class="stat-label">Revenue (Month)</div>
+      </div>
+      <div class="stat-card orange">
+        <div class="stat-icon">⏳</div>
+        <div class="stat-value" id="stat-waitlist">—</div>
+        <div class="stat-label">On Waitlist</div>
+      </div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="card">
+        <div class="card-header">Today's Appointments</div>
+        <div id="today-appointments" class="list-items">Loading...</div>
+      </div>
+      <div class="card">
+        <div class="card-header">Inventory Alerts</div>
+        <div id="inventory-alerts" class="list-items">Loading...</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PATIENTS -->
+  <section id="section-patients" class="section">
+    <div class="section-header">
+      <h1>Patients</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-patient')">+ Add Patient</button>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="patient-search" placeholder="Search by name, ID, or email..." oninput="searchPatients()" />
+    </div>
+    <div class="table-wrap">
+      <table class="data-table" id="patients-table">
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>DOB</th><th>Cell</th><th>Email</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="patients-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- APPOINTMENTS -->
+  <section id="section-appointments" class="section">
+    <div class="section-header">
+      <h1>Appointments</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-appointment')">+ Book Appointment</button>
+    </div>
+    <div class="filter-row">
+      <select id="appt-filter-status" onchange="loadAppointments()">
+        <option value="">All Statuses</option>
+        <option value="Scheduled">Scheduled</option>
+        <option value="Completed">Completed</option>
+        <option value="Cancelled">Cancelled</option>
+        <option value="NoShow">No Show</option>
+      </select>
+      <input type="date" id="appt-filter-date" onchange="loadAppointments()" />
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date/Time</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="appointments-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- DOCTORS -->
+  <section id="section-doctors" class="section">
+    <div class="section-header">
+      <h1>Doctors</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-doctor')">+ Add Doctor</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Doctor ID</th><th>Name</th><th>Specialization</th><th>Phone</th><th>Schedule</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="doctors-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- MEDICAL RECORDS -->
+  <section id="section-records" class="section">
+    <div class="section-header">
+      <h1>Medical Records</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-record')">+ New Record</button>
+    </div>
+    <div class="search-bar">
+      <input type="text" id="record-patient-id" placeholder="Enter Patient ID to search..." oninput="loadRecords()" />
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Record ID</th><th>Patient</th><th>Doctor</th><th>Diagnosis</th><th>Treatment</th><th>Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="records-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- PHARMACY -->
+  <section id="section-pharmacy" class="section">
+    <div class="section-header">
+      <h1>Pharmacy & Inventory</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-inventory')">+ Add Item</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Item ID</th><th>Name</th><th>Stock</th><th>Reorder Level</th><th>Expiry</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="inventory-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- BILLING -->
+  <section id="section-billing" class="section">
+    <div class="section-header">
+      <h1>Billing & Invoices</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-invoice')">+ Create Invoice</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>Invoice ID</th><th>Patient</th><th>Amount</th><th>Tax</th><th>Method</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="billing-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <section id="section-waitlist" class="section">
+    <div class="section-header">
+      <h1>Waitlist</h1>
+      <button class="btn-primary" onclick="openModal('modal-add-waitlist')">+ Add to Waitlist</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Requested Date</th><th>Priority</th><th>Status</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="waitlist-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<!-- MODALS -->
+
+<!-- Add Patient Modal -->
+<div id="modal-add-patient" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Register New Patient</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-patient')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>First Name *</label><input type="text" id="p-fname" /></div>
+        <div class="form-group"><label>Surname *</label><input type="text" id="p-lname" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Date of Birth *</label><input type="date" id="p-dob" /></div>
+        <div class="form-group"><label>Cell Number *</label><input type="text" id="p-cell" placeholder="0712345678"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="p-email" /></div>
+      <div class="form-group"><label>Medical History</label><textarea id="p-history" rows="3"></textarea></div>
+      <div class="form-row">
+        <div class="form-group"><label>Allergies</label><input type="text" id="p-allergies" /></div>
+        <div class="form-group"><label>Insurance Info</label><input type="text" id="p-insurance" /></div>
+      </div>
+      <div class="form-group"><label>Enable Notifications</label>
+        <select id="p-notif"><option value="true">Yes</option><option value="false">No</option></select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-patient')">Cancel</button>
+      <button class="btn-primary" onclick="addPatient()">Register Patient</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Appointment Modal -->
+<div id="modal-add-appointment" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Book Appointment</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-appointment')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Patient ID *</label><input type="number" id="a-patientid" /></div>
+        <div class="form-group"><label>Doctor ID *</label><input type="number" id="a-doctorid" /></div>
+      </div>
+      <div class="form-group"><label>Date & Time *</label><input type="datetime-local" id="a-datetime" /></div>
+      <div class="form-group"><label>Consultation Notes</label><textarea id="a-notes" rows="3"></textarea></div>
+      <div class="form-group"><label>Status</label>
+        <select id="a-status">
+          <option value="Scheduled">Scheduled</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+          <option value="NoShow">No Show</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-appointment')">Cancel</button>
+      <button class="btn-primary" onclick="addAppointment()">Book Appointment</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Doctor Modal -->
+<div id="modal-add-doctor" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Add Doctor</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-doctor')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Phone *</label><input type="text" id="d-phone" /></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="d-email" /></div>
+      </div>
+      <div class="form-group"><label>Specialization *</label><input type="text" id="d-spec" /></div>
+      <div class="form-group"><label>License Number *</label><input type="text" id="d-license" /></div>
+      <div class="form-group"><label>Schedule</label><input type="text" id="d-schedule" placeholder="e.g. Mon-Fri 9am-5pm" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-doctor')">Cancel</button>
+      <button class="btn-primary" onclick="addDoctor()">Add Doctor</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Medical Record Modal -->
+<div id="modal-add-record" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>New Medical Record</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-record')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Patient ID *</label><input type="number" id="r-patientid" /></div>
+        <div class="form-group"><label>Doctor ID *</label><input type="number" id="r-doctorid" /></div>
+      </div>
+      <div class="form-group"><label>Diagnosis *</label><input type="text" id="r-diagnosis" /></div>
+      <div class="form-group"><label>Treatment Plan</label><textarea id="r-treatment" rows="3"></textarea></div>
+      <div class="form-group"><label>Lab Results</label><textarea id="r-lab" rows="2"></textarea></div>
+      <div class="form-group"><label>Consultation Notes</label><textarea id="r-notes" rows="2"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-record')">Cancel</button>
+      <button class="btn-primary" onclick="addRecord()">Save Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Inventory Modal -->
+<div id="modal-add-inventory" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Add Inventory Item</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-inventory')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group"><label>Item Name *</label><input type="text" id="inv-name" /></div>
+      <div class="form-row">
+        <div class="form-group"><label>Stock Quantity *</label><input type="number" id="inv-stock" min="0"/></div>
+        <div class="form-group"><label>Reorder Level *</label><input type="number" id="inv-reorder" min="0"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Unit Price</label><input type="number" id="inv-price" min="0" step="0.01"/></div>
+        <div class="form-group"><label>Expiry Date</label><input type="date" id="inv-expiry"/></div>
+      </div>
+      <div class="form-group"><label>Supplier Info</label><input type="text" id="inv-supplier"/></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-inventory')">Cancel</button>
+      <button class="btn-primary" onclick="addInventory()">Add Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Invoice Modal -->
+<div id="modal-add-invoice" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Create Invoice</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-invoice')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Patient ID *</label><input type="number" id="inv2-patientid" /></div>
+        <div class="form-group"><label>Total Amount *</label><input type="number" id="inv2-amount" min="0" step="0.01"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Payment Method</label>
+          <select id="inv2-method">
+            <option value="Cash">Cash</option>
+            <option value="Credit Card">Credit Card</option>
+            <option value="Medical Aid">Medical Aid</option>
+            <option value="Bank Transfer">Bank Transfer</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Payment Status</label>
+          <select id="inv2-status">
+            <option value="Paid">Paid</option>
+            <option value="Unpaid">Unpaid</option>
+            <option value="Pending">Pending</option>
+            <option value="Partially Paid">Partially Paid</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Issued By (Staff ID) *</label><input type="number" id="inv2-issuedby" /></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-invoice')">Cancel</button>
+      <button class="btn-primary" onclick="addInvoice()">Create Invoice</button>
+    </div>
+  </div>
+</div>
+
+<!-- Add Waitlist Modal -->
+<div id="modal-add-waitlist" class="modal-overlay hidden">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Add to Waitlist</h3>
+      <button class="modal-close" onclick="closeModal('modal-add-waitlist')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label>Patient ID *</label><input type="number" id="w-patientid" /></div>
+        <div class="form-group"><label>Doctor ID *</label><input type="number" id="w-doctorid" /></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Requested Date *</label><input type="date" id="w-date" /></div>
+        <div class="form-group"><label>Priority (1-10)</label><input type="number" id="w-priority" min="1" max="10" value="5" /></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-add-waitlist')">Cancel</button>
+      <button class="btn-primary" onclick="addWaitlist()">Add to Waitlist</button>
+    </div>
+  </div>
+</div>
+
+<!-- View Patient Details Modal -->
+<div id="modal-view-patient" class="modal-overlay hidden">
+  <div class="modal-box wide">
+    <div class="modal-header">
+      <h3>Patient Details</h3>
+      <button class="modal-close" onclick="closeModal('modal-view-patient')">✕</button>
+    </div>
+    <div class="modal-body" id="patient-detail-content"></div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="closeModal('modal-view-patient')">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
